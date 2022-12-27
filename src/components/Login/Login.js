@@ -56,7 +56,6 @@ const Login = (props) => {
   };
 
   const passwordChangeHandler = (event) => {
-    // setEnteredPassword(event.target.value);
     dispatchPassword({type: "USER_INPUT", value: event.target.value})
 
     setFormIsValid(
@@ -69,7 +68,6 @@ const Login = (props) => {
   };
 
   const validatePasswordHandler = () => {
-    // setPasswordIsValid(enteredPassword.trim().length > 6);
     dispatchPassword({type: "INPUT_BLUR"})
   };
 
