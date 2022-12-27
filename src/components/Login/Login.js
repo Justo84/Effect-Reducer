@@ -5,6 +5,12 @@ import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
 
 const emailReducer = (state, action) => {
+  if (action.type === "USER_INPUT") {
+    return {value: action.value, isValid: action.value.includes("@")}
+  }
+  if (action.type === "INPUT_BLUR") {
+    return {value: state.value, isValid: state.value.includes("@")}
+  }
   return {value: '', isValid: false}
 }
 
@@ -15,7 +21,7 @@ const Login = (props) => {
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
-  const [emailState, dispatchEmail] = useReducer(emailReducer, {value: '', isValid: false})
+  const [emailState, dispatchEmail] = useReducer(emailReducer, {value: '', isValid: null})
 
   // useEffect(() => {
   //   const timer = setTimeout(() => {
@@ -31,7 +37,7 @@ const Login = (props) => {
   // }, [enteredEmail, enteredPassword])
 
   const emailChangeHandler = (event) => {
-    setEnteredEmail(event.target.value);
+    dispatchEmail({type: "USER_INPUT", value: event.target.value})
 
     setFormIsValid(
       event.target.value.includes("@") && enteredPassword.trim().length > 6
@@ -47,8 +53,8 @@ const Login = (props) => {
     )
   };
 
-  const validateEmailHandler = () => {
-    setEmailIsValid(emailState.isValid);
+  const validateEmailHandler = (event) => {
+    dispatchEmail({type: "INPUT_BLUR"})
   };
 
   const validatePasswordHandler = () => {
