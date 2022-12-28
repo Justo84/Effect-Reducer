@@ -34,18 +34,22 @@ const Login = (props) => {
   const [emailState, dispatchEmail] = useReducer(emailReducer, {value: '', isValid: null})
   const [passwordState, dispatchPassword] = useReducer(passwordReducer, {value: '', isValid: null})
 
+  // object destructuring. Pulling out a property and then storing it in an alias (emailIsValid)
+  const { isValid: emailIsValid } = emailState
+  const { isValid: passwordisValid } = passwordState
+
   useEffect(() => {
     const timer = setTimeout(() => {
       console.log("Check validity")
       setFormIsValid(
-        emailState.isValid && passwordState.isValid
+        emailIsValid && passwordisValid
       );
     }, 500);
     return () => {
       console.log("Cleanup function")
       clearTimeout(timer)
     }
-  }, [emailState, passwordState])
+  }, [emailIsValid, passwordisValid])
 
   const emailChangeHandler = (event) => {
     dispatchEmail({type: "USER_INPUT", value: event.target.value})
